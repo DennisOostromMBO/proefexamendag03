@@ -5,15 +5,17 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class TypePersoonSeeder extends Seeder
+class ReserveringStatusSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
-        DB::table('type_persoons')->insert([
+        DB::table('reserveringstatussen')->insert([
             ['naam' => 'Klant'],
             ['naam' => 'Medewerker'],
             ['naam' => 'Gast'],
         ]);
     }
 }
-
