@@ -23,6 +23,7 @@ Route::get('/', function () {
 // Import the specialized route files
 @include_once __DIR__.'/uitslag.php';
 require __DIR__.'/mahdi.php';
+require __DIR__.'/dennis.php';
 
 // Define reservering routes directly here instead of including wassim.php
 Route::get('/reservering', [ReserveringController::class, 'index'])->name('reservering.index');
