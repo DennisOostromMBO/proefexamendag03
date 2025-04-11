@@ -52,7 +52,7 @@ class ReserveringenController extends Controller
     public function edit($id)
     {
         $reservering = DB::table('reserveringen')->where('id', $id)->first();
-        $banen = DB::table('baan')->get();
+        $banen = DB::table('baans')->get();
 
         return view('reserveringen.edit', compact('reservering', 'banen'));
     }
@@ -90,7 +90,7 @@ class ReserveringenController extends Controller
      */
     private function baanHeeftHek($baanId)
     {
-        $baan = DB::table('baan')->where('id', $baanId)->first();
+        $baan = DB::table('baans')->where('id', $baanId)->first();
         return $baan && $baan->heeft_hek;
     }
 }

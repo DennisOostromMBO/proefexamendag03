@@ -13,7 +13,7 @@ class BanenController extends Controller
     {
         try {
             // Fetch data from the GetAllBanen stored procedure
-            $banen = DB::select('CALL GetAllBanen()');
+            $banen = DB::select('CALL GetAllBanen()'); // Ensure the SP name matches the updated one
             return view('banen.index', compact('banen'));
         } catch (\Exception $e) {
             // Log the exception and return an error message

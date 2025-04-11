@@ -12,7 +12,7 @@ BEGIN
 
     -- Check if the baan is unsuitable for children and the reservation includes children
     IF aantal_kinderen > 0 THEN
-        IF (SELECT heeft_hek FROM baan WHERE id = nieuwBaanId) = 0 THEN
+        IF (SELECT heeft_hek FROM baans WHERE id = nieuwBaanId) = 0 THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Deze baan is ongeschikt voor kinderen omdat deze geen hekjes heeft';
         END IF;

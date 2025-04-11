@@ -10,7 +10,7 @@ BEGIN
     FROM 
         reserveringen r
     INNER JOIN 
-        persoon p ON r.persoon_id = p.id
+        persoons p ON r.persoon_id = p.id -- Updated table name to 'persoons'
     INNER JOIN 
-        baan b ON r.baan_id = b.id;
+        baans b ON r.baan_id = b.id; -- Updated table name to 'baans'
 END;

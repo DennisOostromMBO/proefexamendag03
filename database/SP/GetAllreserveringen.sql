@@ -11,5 +11,5 @@ BEGIN
     FROM 
         reserveringen r
     INNER JOIN 
-        persoon p ON r.persoon_id = p.id;
+        persoons p ON r.persoon_id = p.id;
 END;
