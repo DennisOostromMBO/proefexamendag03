@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contact', function (Blueprint $table) {
+        Schema::create('contacts', function (Blueprint $table) {
             $table->id(); // Primary key
             $table->unsignedBigInteger('PersoonId'); // Foreign key to Persoon.Id
             $table->string('Mobiel', 255); // Mobile phone number
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contact');
+        Schema::dropIfExists('contacts'); // Updated to match the renamed table
     }
 };

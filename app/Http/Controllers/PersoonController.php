@@ -11,14 +11,42 @@ class PersoonController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $klanten = DB::table('persoons')
-            ->join('contacts', 'persoons.id', '=', 'contacts.PersoonId')
-            ->select('persoons.Voornaam', 'persoons.Tussenvoegsel', 'persoons.Achternaam', 'persoons.IsVolwassen', 'contacts.Mobiel', 'contacts.Email')
-            ->get();
+        $datums = DB::table('persoons')
+            ->selectRaw('DATE(DatumAangemaakt) as datum')
+            ->distinct()
+            ->orderBy('datum', 'asc')
+            ->pluck('datum')
+            ->toArray();
 
-        return view('contact.index', ['klanten' => $klanten]);
+        $query = DB::table('persoons')
+            ->leftJoin('contacts', 'persoons.id', '=', 'contacts.PersoonId')
+            ->select(
+                'persoons.id', // Include the id field
+                'persoons.Voornaam',
+                'persoons.Tussenvoegsel',
+                'persoons.Achternaam',
+                'persoons.Roepnaam',
+                'persoons.IsVolwassen',
+                'persoons.DatumAangemaakt',
+                'contacts.Mobiel',
+                'contacts.Email'
+            );
+
+        if ($request->has('datum') && $request->input('datum') !== 'all') {
+            $query->whereDate('persoons.DatumAangemaakt', '=', $request->input('datum'));
+        }
+
+        $klanten = $query->orderBy('persoons.Achternaam', 'asc')->get();
+
+        $noData = $klanten->isEmpty();
+
+        return view('contact.index', [
+            'klanten' => $klanten,
+            'datums' => $datums,
+            'noData' => $noData,
+        ]);
     }
 
     /**

@@ -15,15 +15,15 @@ class TypePersoonSeeder extends Seeder
         DB::table('type_persoon')->insert([
             [
                 'id' => 1,
-                'Naam' => 'Klant',
+                'type' => 'Klant',
             ],
             [
                 'id' => 2,
-                'Naam' => 'Medewerker',
+                'type' => 'Medewerker',
             ],
             [
                 'id' => 3,
-                'Naam' => 'Gast',
+                'type' => 'Gast',
             ],
         ]);
     }
