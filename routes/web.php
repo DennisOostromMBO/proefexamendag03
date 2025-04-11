@@ -14,13 +14,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// The root route is now handled in wassim.php so we don't need this one
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+// Home route will be handled directly here instead of in wassim.php
+Route::get('/', function () {
+    return view('welcome_reservering');
+});
 
-// Include other route files
+// Import the specialized route files
 @include_once __DIR__.'/uitslag.php';
 require __DIR__.'/mahdi.php';
+
+// Define reservering routes directly here instead of including wassim.php
+Route::get('/reservering', [ReserveringController::class, 'index'])->name('reservering.index');
+Route::get('/reservering/{id}/edit-pakket', [ReserveringController::class, 'editPakket'])->name('reservering.edit.pakket');
+Route::post('/reservering/{id}/update-pakket', [ReserveringController::class, 'updatePakket'])->name('reservering.update.pakket');
 
 

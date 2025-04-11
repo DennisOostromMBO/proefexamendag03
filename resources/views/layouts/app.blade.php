@@ -52,23 +52,16 @@
             </div>
         @endif
 
-        {{-- Main Content --}}
-        <div class="flex-grow">
-            @yield('content')
-        </div>
-
-        {{-- Footer --}}
-        <footer class="bg-gray-800 text-white text-center p-4">
-            &copy; {{ date('Y') }} Mijn Website. Alle rechten voorbehouden.
-        </footer>
-    </body>
         @if(session('error'))
             <div class="alert alert-danger mt-3">
                 {{ session('error') }}
             </div>
         @endif
 
-        @yield('content')
+        {{-- Main Content --}}
+        <div class="flex-grow">
+            @yield('content')
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
