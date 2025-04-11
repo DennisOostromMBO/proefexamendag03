@@ -1,0 +1,100 @@
+@startuml Bowlingcentrum ERD
+
+skinparam linetype ortho
+hide circle
+hide methods
+
+entity "persoons" as persoon {
+  * id : bigint <<PK>>
+  --
+  * type_persoon_id : bigint <<FK>>
+  * voornaam : varchar
+  tussenvoegsel : varchar
+  * achternaam : varchar
+  * roepnaam : varchar
+  * is_volwassen : boolean
+  * is_active : boolean
+  opmerking : text
+  * datum_aangemaakt : timestamp
+  * datum_gewijzigd : timestamp
+}
+
+entity "type_persoons" as type_persoon {
+  * id : bigint <<PK>>
+  --
+  * naam : varchar
+  * is_active : boolean
+  opmerking : text
+  * datum_aangemaakt : timestamp
+  * datum_gewijzigd : timestamp
+}
+
+entity "reserveringen" as reservering {
+  * id : bigint <<PK>>
+  --
+  * persoon_id : bigint <<FK>>
+  * openingstijd_id : bigint <<FK>>
+  * baan_id : bigint <<FK>>
+  pakketoptie_id : bigint <<FK>>
+  * reservering_status : varchar
+  * reserveringsnummer : varchar
+  * datum : date
+  * aantal_uren : int
+  * begin_tijd : time
+  * eind_tijd : time
+  * aantal_volwassen : int
+  aantal_kinderen : int
+  * datum_aangemaakt : timestamp
+  * datum_gewijzigd : timestamp
+}
+
+entity "openings_tijds" as openingstijd {
+  * id : bigint <<PK>>
+  --
+  * dag_naam : varchar
+  * begin_tijd : time
+  * eind_tijd : time
+  * is_active : boolean
+  opmerking : text
+  * datum_aangemaakt : timestamp
+  * datum_gewijzigd : timestamp
+}
+
+entity "baans" as baan {
+  * id : bigint <<PK>>
+  --
+  * nummer : int
+  * heeft_hek : boolean
+  * is_active : boolean
+  opmerking : text
+  * datum_aangemaakt : timestamp
+  * datum_gewijzigd : timestamp
+}
+
+entity "pakket_opties" as pakketoptie {
+  * id : bigint <<PK>>
+  --
+  * naam : varchar
+  * is_active : boolean
+  opmerking : text
+  * datum_aangemaakt : timestamp
+  * datum_gewijzigd : timestamp
+}
+
+entity "reserveringstatussen" as reserveringstatus {
+  * id : bigint <<PK>>
+  --
+  * naam : varchar
+  * is_active : boolean
+  opmerking : text
+  * datum_aangemaakt : timestamp
+  * datum_gewijzigd : timestamp
+}
+
+type_persoon ||--o{ persoon
+persoon ||--o{ reservering
+openingstijd ||--o{ reservering
+baan ||--o{ reservering
+pakketoptie ||--o{ reservering
+
+@enduml
