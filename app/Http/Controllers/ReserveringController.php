@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReserveringController extends Controller
 {
@@ -11,6 +12,7 @@ class ReserveringController extends Controller
      */
     public function index()
     {
-        return view('reserveringen.index');
+        $reserveringen = DB::select('CALL GetAllReserveringen()');
+        return view('reserveringen.index', compact('reserveringen'));
     }
 }
