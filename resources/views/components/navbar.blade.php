@@ -4,7 +4,7 @@
         <a href="{{ url('/') }}" class="text-lg font-semibold">Mijn Website</a>
         <ul class="flex space-x-4">
             <li><a href="{{ url('/') }}" class="hover:underline">Home</a></li>
-            <li><a href="{{ url('/reservering') }}" class="hover:underline">Uitslagen</a></li>
+            <li><a href="{{ route('uitslag.index') }}" class="hover:underline">Uitslagen</a></li>
         </ul>
     </div>
 </nav>

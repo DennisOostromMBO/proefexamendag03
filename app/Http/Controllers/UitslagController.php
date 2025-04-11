@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservering;
+use App\Models\Uitslag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,11 +15,15 @@ class ReserveringController extends Controller
     public function index(Request $request)
     {
         try {
-            // Fetch all reserveringen with related data
-            $reserveringen = DB::table('reservering')
-                ->join('persoon', 'reservering.PersoonId', '=', 'persoon.id')
+            // Fetch uitslagen data with additional fields
+            $uitslagen = DB::table('uitslag')
+                ->join('spel', 'uitslag.SpelId', '=', 'spel.id')
+                ->join('persoon', 'spel.PersoonId', '=', 'persoon.id')
+                ->join('reservering', 'spel.ReserveringId', '=', 'reservering.id') // Join reservering table for additional fields
                 ->select(
-                    'reservering.id AS ReserveringId',
+                    'uitslag.id AS UitslagId',
+                    'uitslag.SpelId',
+                    'uitslag.Aantalpunten',
                     DB::raw("CONCAT(persoon.Voornaam, ' ', IFNULL(persoon.Tussenvoegsel, ''), ' ', persoon.Achternaam) AS Naam"),
                     'reservering.Datum',
                     'reservering.AantalUren',
@@ -27,12 +32,13 @@ class ReserveringController extends Controller
                     'reservering.AantalVolwassen',
                     'reservering.AantalKinderen'
                 )
-                ->orderBy('reservering.Datum', 'DESC')
+                ->orderBy('uitslag.Aantalpunten', 'DESC')
                 ->get();
 
-            return view('uitslag.index', compact('reserveringen'));
+            // Pass the data to the view
+            return view('uitslag.index', compact('uitslagen'));
         } catch (\Exception $e) {
-            return back()->withErrors(['message' => 'Er is een fout opgetreden bij het ophalen van de reserveringen.']);
+            return back()->withErrors(['message' => 'Er is een fout opgetreden bij het ophalen van de uitslagen.']);
         }
     }
 
@@ -83,7 +89,10 @@ class ReserveringController extends Controller
     {
         //
     }
+}
 
+class UitslagController extends Controller
+{
     /**
      * Display the uitslagen for a specific reservering.
      */
@@ -104,6 +113,39 @@ class ReserveringController extends Controller
                 ->get();
 
             return view('uitslag.uitslagen', compact('uitslagen'));
+        } catch (\Exception $e) {
+            return back()->withErrors(['message' => 'Er is een fout opgetreden bij het ophalen van de uitslagen.']);
+        }
+    }
+
+    /**
+     * Display the list of uitslagen.
+     */
+    public function index()
+    {
+        try {
+            // Fetch uitslagen data with additional fields
+            $uitslagen = DB::table('uitslag')
+                ->join('spel', 'uitslag.SpelId', '=', 'spel.id')
+                ->join('persoon', 'spel.PersoonId', '=', 'persoon.id')
+                ->join('reservering', 'spel.ReserveringId', '=', 'reservering.id') // Join reservering table for additional fields
+                ->select(
+                    'uitslag.id AS UitslagId',
+                    'uitslag.SpelId',
+                    'uitslag.Aantalpunten',
+                    DB::raw("CONCAT(persoon.Voornaam, ' ', IFNULL(persoon.Tussenvoegsel, ''), ' ', persoon.Achternaam) AS Naam"),
+                    'reservering.Datum',
+                    'reservering.AantalUren',
+                    'reservering.BeginTijd',
+                    'reservering.EindTijd',
+                    'reservering.AantalVolwassen',
+                    'reservering.AantalKinderen'
+                )
+                ->orderBy('uitslag.Aantalpunten', 'DESC')
+                ->get();
+
+            // Pass the data to the view
+            return view('uitslag.index', compact('uitslagen'));
         } catch (\Exception $e) {
             return back()->withErrors(['message' => 'Er is een fout opgetreden bij het ophalen van de uitslagen.']);
         }
