@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// The root route is now handled in wassim.php so we don't need this one
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-require __DIR__ . '/wassim.php';
+// Include other route files
 @include_once __DIR__.'/uitslag.php';
-
 require __DIR__.'/mahdi.php';
 
 
