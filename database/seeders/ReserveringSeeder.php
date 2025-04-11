@@ -2,10 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Persoon;
-use App\Models\Baan;
-use App\Models\OpeningsTijd;
-use App\Models\PakketOptie;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -13,108 +9,101 @@ class ReserveringSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('reservering')->insert([
-            ['id' => 1, 'PersoonId' => 1, 'OpeningstijdId' => 2, 'BaanId' => 8, 'PakketOptieId' => 1, 'ReserveringStatus' => 'Bevestigd', 'Reserveringsnummer' => '202212200001', 'Datum' => '2022-12-20', 'AantalUren' => 1, 'BeginTijd' => '15:00', 'EindTijd' => '16:00', 'AantalVolwassen' => 4, 'AantalKinderen' => 2],
-            ['id' => 2, 'PersoonId' => 2, 'OpeningstijdId' => 2, 'BaanId' => 3, 'PakketOptieId' => 3, 'ReserveringStatus' => 'Bevestigd', 'Reserveringsnummer' => '202212200002', 'Datum' => '2022-12-20', 'AantalUren' => 1, 'BeginTijd' => '17:00', 'EindTijd' => '18:00', 'AantalVolwassen' => 4, 'AantalKinderen' => null],
-            ['id' => 3, 'PersoonId' => 3, 'OpeningstijdId' => 7, 'BaanId' => 1, 'PakketOptieId' => 1, 'ReserveringStatus' => 'Bevestigd', 'Reserveringsnummer' => '202212400003', 'Datum' => '2022-12-24', 'AantalUren' => 2, 'BeginTijd' => '16:00', 'EindTijd' => '18:00', 'AantalVolwassen' => 4, 'AantalKinderen' => null],
-            ['id' => 4, 'PersoonId' => 1, 'OpeningstijdId' => 2, 'BaanId' => 6, 'PakketOptieId' => null, 'ReserveringStatus' => 'Bevestigd', 'Reserveringsnummer' => '202212700004', 'Datum' => '2022-12-27', 'AantalUren' => 1, 'BeginTijd' => '17:00', 'EindTijd' => '19:00', 'AantalVolwassen' => 2, 'AantalKinderen' => null],
-            ['id' => 5, 'PersoonId' => 4, 'OpeningstijdId' => 3, 'BaanId' => 4, 'PakketOptieId' => 4, 'ReserveringStatus' => 'Bevestigd', 'Reserveringsnummer' => '202212800005', 'Datum' => '2022-12-28', 'AantalUren' => 1, 'BeginTijd' => '14:00', 'EindTijd' => '15:00', 'AantalVolwassen' => 3, 'AantalKinderen' => null],
-            ['id' => 6, 'PersoonId' => 5, 'OpeningstijdId' => 10, 'BaanId' => 5, 'PakketOptieId' => 4, 'ReserveringStatus' => 'Bevestigd', 'Reserveringsnummer' => '202212800006', 'Datum' => '2022-12-28', 'AantalUren' => 2, 'BeginTijd' => '19:00', 'EindTijd' => '21:00', 'AantalVolwassen' => 2, 'AantalKinderen' => null],
-        ]);
-    /**
-     * Run the database seeds.
-     */
-
-        // Get IDs to use in the reservations
-        $personen = Persoon::where('type_persoon_id', 1)->pluck('id')->toArray(); // Klanten
-        $banen = Baan::pluck('id')->toArray();
-        $openingsTijden = OpeningsTijd::pluck('id')->toArray();
-        $pakketOpties = PakketOptie::pluck('id')->toArray();
-
         $reserveringen = [
-            // Bevestigde reserveringen in het verleden
             [
-                'persoon_id' => $personen[0],
-                'openingstijd_id' => $openingsTijden[0],
-                'baan_id' => $banen[0],
-                'pakketoptie_id' => $pakketOpties[0],
+                'id' => 1,
+                'persoon_id' => 1,
+                'openingstijd_id' => 2,
+                'baan_id' => 8,
+                'pakketoptie_id' => 1,
                 'reservering_status' => 'Bevestigd',
-                'reserveringsnummer' => 'RES-2025-0001',
-                'datum' => '2025-03-15',
-                'aantal_uren' => 2,
-                'begin_tijd' => '15:00:00',
-                'eind_tijd' => '17:00:00',
-                'aantal_volwassen' => 4,
-                'aantal_kinderen' => 0,
-            ],
-            [
-                'persoon_id' => $personen[1],
-                'openingstijd_id' => $openingsTijden[1],
-                'baan_id' => $banen[1],
-                'pakketoptie_id' => $pakketOpties[1],
-                'reservering_status' => 'Bevestigd',
-                'reserveringsnummer' => 'RES-2025-0002',
-                'datum' => '2025-03-30',
-                'aantal_uren' => 3,
-                'begin_tijd' => '18:00:00',
-                'eind_tijd' => '21:00:00',
-                'aantal_volwassen' => 2,
-                'aantal_kinderen' => 3,
-            ],
-
-            // Bevestigde reserveringen in het heden
-            [
-                'persoon_id' => $personen[2],
-                'openingstijd_id' => $openingsTijden[2],
-                'baan_id' => $banen[2],
-                'pakketoptie_id' => $pakketOpties[2],
-                'reservering_status' => 'Bevestigd',
-                'reserveringsnummer' => 'RES-2025-0003',
-                'datum' => '2025-04-10',
+                'reserveringsnummer' => '202212200001',
+                'datum' => '2022-12-20',
                 'aantal_uren' => 1,
-                'begin_tijd' => '16:00:00',
-                'eind_tijd' => '17:00:00',
-                'aantal_volwassen' => 6,
-                'aantal_kinderen' => 0,
-            ],
-
-            // Bevestigde reserveringen in de toekomst
-            [
-                'persoon_id' => $personen[3],
-                'openingstijd_id' => $openingsTijden[3],
-                'baan_id' => $banen[3],
-                'pakketoptie_id' => $pakketOpties[3],
-                'reservering_status' => 'Bevestigd',
-                'reserveringsnummer' => 'RES-2025-0004',
-                'datum' => '2025-04-20',
-                'aantal_uren' => 2,
-                'begin_tijd' => '19:00:00',
-                'eind_tijd' => '21:00:00',
-                'aantal_volwassen' => 3,
+                'begin_tijd' => '15:00',
+                'eind_tijd' => '16:00',
+                'aantal_volwassen' => 4,
                 'aantal_kinderen' => 2,
             ],
-
-            // Niet-bevestigde reservering (zal niet zichtbaar zijn in het overzicht)
             [
-                'persoon_id' => $personen[0],
-                'openingstijd_id' => $openingsTijden[4],
-                'baan_id' => $banen[4],
-                'pakketoptie_id' => null,
-                'reservering_status' => 'Optioneel',
-                'reserveringsnummer' => 'RES-2025-0005',
-                'datum' => '2025-04-15',
+                'id' => 2,
+                'persoon_id' => 2,
+                'openingstijd_id' => 2,
+                'baan_id' => 3,
+                'pakketoptie_id' => 3,
+                'reservering_status' => 'Bevestigd',
+                'reserveringsnummer' => '202212200002',
+                'datum' => '2022-12-20',
+                'aantal_uren' => 1,
+                'begin_tijd' => '17:00',
+                'eind_tijd' => '18:00',
+                'aantal_volwassen' => 4,
+                'aantal_kinderen' => null,
+            ],
+            [
+                'id' => 3,
+                'persoon_id' => 3,
+                'openingstijd_id' => 7,
+                'baan_id' => 1,
+                'pakketoptie_id' => 1,
+                'reservering_status' => 'Bevestigd',
+                'reserveringsnummer' => '202212400003',
+                'datum' => '2022-12-24',
                 'aantal_uren' => 2,
-                'begin_tijd' => '14:00:00',
-                'eind_tijd' => '16:00:00',
+                'begin_tijd' => '16:00',
+                'eind_tijd' => '18:00',
+                'aantal_volwassen' => 4,
+                'aantal_kinderen' => null,
+            ],
+            [
+                'id' => 4,
+                'persoon_id' => 1,
+                'openingstijd_id' => 2,
+                'baan_id' => 6,
+                'pakketoptie_id' => null,
+                'reservering_status' => 'Bevestigd',
+                'reserveringsnummer' => '202212700004',
+                'datum' => '2022-12-27',
+                'aantal_uren' => 1,
+                'begin_tijd' => '17:00',
+                'eind_tijd' => '19:00',
                 'aantal_volwassen' => 2,
-                'aantal_kinderen' => 0,
+                'aantal_kinderen' => null,
+            ],
+            [
+                'id' => 5,
+                'persoon_id' => 4,
+                'openingstijd_id' => 3,
+                'baan_id' => 4,
+                'pakketoptie_id' => 4,
+                'reservering_status' => 'Bevestigd',
+                'reserveringsnummer' => '202212800005',
+                'datum' => '2022-12-28',
+                'aantal_uren' => 1,
+                'begin_tijd' => '14:00',
+                'eind_tijd' => '15:00',
+                'aantal_volwassen' => 3,
+                'aantal_kinderen' => null,
+            ],
+            [
+                'id' => 6,
+                'persoon_id' => 5,
+                'openingstijd_id' => 10,
+                'baan_id' => 5,
+                'pakketoptie_id' => 4,
+                'reservering_status' => 'Bevestigd',
+                'reserveringsnummer' => '202212800006',
+                'datum' => '2022-12-28',
+                'aantal_uren' => 2,
+                'begin_tijd' => '19:00',
+                'eind_tijd' => '21:00',
+                'aantal_volwassen' => 2,
+                'aantal_kinderen' => null,
             ],
         ];
 
-        foreach ($reserveringen as $reservering) {
-            DB::table('reservering')->insert($reservering);
-        }
-    
+        // Insert all reservations into the database
+        DB::table('reservering')->insert($reserveringen);
     }
 }
 
