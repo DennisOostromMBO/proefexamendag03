@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ReserveringenTableSeeder::class);
         $this->call(PersoonTableSeeder::class);
         $this->call(TypePersoonTableSeeder::class);
+        $this->call(BaanTableSeeder::class);
     }
 }
