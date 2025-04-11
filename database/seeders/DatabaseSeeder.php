@@ -22,10 +22,6 @@ class DatabaseSeeder extends Seeder
             ContactSeeder::class,
             SpelSeeder::class,
             UitslagSeeder::class,
-            ReserveringenTableSeeder::class,
-            PersoonTableSeeder::class,
-            TypePersoonTableSeeder::class,
-            BaanTableSeeder::class,
         ]);
     }
 }
