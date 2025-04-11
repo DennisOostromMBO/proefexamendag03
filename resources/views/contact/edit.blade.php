@@ -90,7 +90,7 @@
 
         <div class="checkbox-row">
             <label for="volwassen">Volwassen:</label>
-            <input type="checkbox" id="volwassen" name="IsVolwassen" value="1" {{ old('IsVolwassen', $klant->IsVolwassen) ? 'checked' : '' }}>
+            <input type="checkbox" id="volwassen" name="is_volwassen" value="1" {{ old('is_volwassen', $klant->is_volwassen) ? 'checked' : '' }}>
         </div>
 
         <button type="submit">Wijzigen</button>

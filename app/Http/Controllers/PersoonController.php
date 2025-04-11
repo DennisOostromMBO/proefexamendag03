@@ -14,7 +14,7 @@ class PersoonController extends Controller
     public function index(Request $request)
     {
         $datums = DB::table('persoons')
-            ->selectRaw('DATE(DatumAangemaakt) as datum')
+            ->selectRaw('DATE(datum_aangemaakt) as datum')
             ->distinct()
             ->orderBy('datum', 'asc')
             ->pluck('datum')
@@ -28,14 +28,14 @@ class PersoonController extends Controller
                 'persoons.Tussenvoegsel',
                 'persoons.Achternaam',
                 'persoons.Roepnaam',
-                'persoons.IsVolwassen',
-                'persoons.DatumAangemaakt',
+                'persoons.is_volwassen',
+                'persoons.datum_aangemaakt',
                 'contacts.Mobiel',
                 'contacts.Email'
             );
 
         if ($request->has('datum') && $request->input('datum') !== 'all') {
-            $query->whereDate('persoons.DatumAangemaakt', '=', $request->input('datum'));
+            $query->whereDate('persoons.datum_aangemaakt', '=', $request->input('datum'));
         }
 
         $klanten = $query->orderBy('persoons.Achternaam', 'asc')->get();
@@ -60,7 +60,7 @@ class PersoonController extends Controller
             'Tussenvoegsel' => 'nullable|string|max:20',
             'Achternaam' => 'required|string|max:41',
             'Roepnaam' => 'required|string|max:50',
-            'IsVolwassen' => 'required|boolean',
+            'is_volwassen' => 'required|boolean',
         ]);
 
         $persoon = Persoon::create($validated);
@@ -89,7 +89,7 @@ class PersoonController extends Controller
                 'persoons.Tussenvoegsel',
                 'persoons.Achternaam',
                 'persoons.Roepnaam',
-                'persoons.IsVolwassen',
+                'persoons.is_volwassen',
                 'contacts.Mobiel',
                 'contacts.Email'
             )
@@ -113,7 +113,7 @@ class PersoonController extends Controller
             'Tussenvoegsel' => 'nullable|string|max:20',
             'Achternaam' => 'required|string|max:41',
             'Roepnaam' => 'nullable|string|max:50', // Ensure Roepnaam is optional
-            'IsVolwassen' => 'nullable|boolean',
+            'is_volwassen' => 'nullable|boolean',
             'Mobiel' => 'nullable|string|max:255',
             'Email' => 'nullable|email|max:255|unique:contacts,Email,' . $id . ',PersoonId',
         ]);
@@ -124,7 +124,7 @@ class PersoonController extends Controller
             'Tussenvoegsel' => $validatedData['Tussenvoegsel'] ?? null,
             'Achternaam' => $validatedData['Achternaam'],
             'Roepnaam' => $validatedData['Roepnaam'] ?? $validatedData['Voornaam'], // Default to Voornaam
-            'IsVolwassen' => $validatedData['IsVolwassen'] ?? false,
+            'is_volwassen' => $validatedData['IsVolwassen'] ?? false,
         ];
 
         $contactData = [

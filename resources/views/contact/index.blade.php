@@ -57,7 +57,7 @@
                         <td>{{ $klant->Roepnaam }}</td>
                         <td>{{ $klant->Mobiel }}</td>
                         <td>{{ $klant->Email }}</td>
-                        <td>{{ $klant->IsVolwassen ? 'Ja' : 'Nee' }}</td>
+                        <td>{{ $klant->is_volwassen ? 'Ja' : 'Nee' }}</td>
                         <td>
                             <a href="{{ route('klanten.edit', $klant->id) }}" title="Wijzigen">✏️</a>
                         </td>
