@@ -13,19 +13,25 @@ class ReserveringController extends Controller
      */
     public function index(Request $request)
     {
-        // Get the reservering ID from the request (if provided)
-        $reserveringId = $request->query('reservering_id');
+        try {
+            // Get the 'reservering_id' filter from the request
+            $reserveringId = $request->query('reservering_id'); 
 
-        if ($reserveringId) {
-            // Call the stored procedure to get the uitslagen for the specific reservering
-            $uitslagen = DB::select('CALL GetUitslagenByReservering(?)', [$reserveringId]);
+            // Fetch all uitslagen using the stored procedure
+            $uitslagen = collect(DB::select('CALL GetUitslagenByReservering(?)', [$reserveringId])); 
+            $errorMessage = null;
 
-            // Return the view with the uitslagen data
-            return view('reservering.uitslagen', compact('uitslagen'));
+            // Check if the result is empty
+            if ($uitslagen->isEmpty()) {
+                $errorMessage = 'Geen uitslagen gevonden voor deze reservering.';
+            }
+
+            // Return the view with the data
+            return view('reservering.index', compact('uitslagen', 'reserveringId', 'errorMessage'));
+        } catch (\Exception $e) {
+            // Log the exception and return an error message
+            return back()->withErrors(['message' => 'Er is een fout opgetreden bij het ophalen van de uitslagen.']);
         }
-
-        // If no reservering ID is provided, return a default view or message
-        return view('reservering.index');
     }
 
     /**

@@ -1,21 +1,19 @@
+{{-- filepath: resources/views/layouts/app.blade.php --}}
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Laravel</title>
+        <title>@yield('title', 'Mijn Website')</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex flex-col min-h-screen">
-        {{-- Include the Navbar Component --}}
+    <body class="bg-white text-black flex flex-col min-h-screen">
+        {{-- Navbar --}}
         <x-navbar />
 
         {{-- Main Content --}}
-        <div class="flex-grow flex items-center justify-center">
-            <main class="text-center">
-                <h1 class="text-4xl font-bold mb-4">Welkom op mijn pagina!</h1>
-                <p class="text-lg">Gebruik de navigatiebalk om door de website te bladeren.</p>
-            </main>
+        <div class="flex-grow">
+            @yield('content')
         </div>
 
         {{-- Footer --}}

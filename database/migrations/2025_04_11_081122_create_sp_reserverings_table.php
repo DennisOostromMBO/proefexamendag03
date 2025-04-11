@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         // Drop the procedure if it already exists
-        DB::unprepared('DROP PROCEDURE IF EXISTS spGetAllReservering');
+        DB::unprepared('DROP PROCEDURE IF EXISTS GetUitslagenByReservering');
 
         // Load the SQL file and execute it
-        $path = database_path('sp/reservering/spGetAllReservering.sql');
+        $path = database_path('sp/reservering/spGetUitslagenByReservering.sql');
         $sql = File::get($path);
         DB::unprepared($sql);
     }
@@ -26,6 +26,6 @@ return new class extends Migration
     public function down(): void
     {
         // Drop the procedure
-        DB::unprepared('DROP PROCEDURE IF EXISTS spGetAllReservering');
+        DB::unprepared('DROP PROCEDURE IF EXISTS GetUitslagenByReservering');
     }
 };
