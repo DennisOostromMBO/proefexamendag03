@@ -61,6 +61,14 @@ class ReserveringenController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            // Fetch the reservering to check for children
+            $reservering = DB::table('reserveringen')->where('id', $id)->first();
+
+            // Check if the baan is unsuitable for children and the reservering includes children
+            if ($reservering->aantal_kinderen > 0 && !$this->baanHeeftHek($request->input('baan_id'))) {
+                return back()->withErrors(['message' => 'Deze baan is ongeschikt voor kinderen omdat deze geen hekjes heeft.']);
+            }
+
             // Call the stored procedure with parameters
             DB::statement('CALL WijzigBaan(?, ?)', [$id, $request->input('baan_id')]);
 
@@ -70,13 +78,17 @@ class ReserveringenController extends Controller
             // Extract the error message from the exception
             $errorMessage = $e->getMessage();
 
-            // Check if the error message contains the specific stored procedure error
-            if (str_contains($errorMessage, 'Deze baan is ongeschikt voor kinderen')) {
-                $errorMessage = 'Deze baan is ongeschikt voor kinderen omdat deze geen hekjes heeft.';
-            }
-
             // Return to the edit view with the formatted error message
             return back()->withErrors(['message' => $errorMessage]);
         }
+    }
+
+    /**
+     * Check if a baan has a hek.
+     */
+    private function baanHeeftHek($baanId)
+    {
+        $baan = DB::table('baan')->where('id', $baanId)->first();
+        return $baan && $baan->heeft_hek;
     }
 }
