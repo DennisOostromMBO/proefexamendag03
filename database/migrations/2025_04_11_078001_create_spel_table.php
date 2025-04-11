@@ -14,17 +14,16 @@ return new class extends Migration
     {
         Schema::create('spel', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('PersoonId');
-            $table->unsignedBigInteger('ReserveringId');
-            $table->boolean('IsActive')->default(true);
-            $table->text('Opmerking')->nullable();
-            $table->timestamp('DatumAangemaakt')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('DatumGewijzigd')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
-  
+            $table->unsignedBigInteger('persoons_id');
+            $table->unsignedBigInteger('reservering_id'); // Column name stays the same
+            $table->boolean('is_active')->default(true);
+            $table->text('opmerking')->nullable();
+            $table->timestamp('datum_aangemaakt')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('datum_gewijzigd')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 
             // Foreign key constraints
-            $table->foreign('PersoonId')->references('id')->on('persoon')->onDelete('cascade');
-            $table->foreign('ReserveringId')->references('id')->on('reservering')->onDelete('cascade');
+            $table->foreign('persoons_id')->references('id')->on('persoons')->onDelete('cascade');
+            $table->foreign('reservering_id')->references('id')->on('reserveringen')->onDelete('cascade'); // Updated to reference the correct table name
         });
     }
 

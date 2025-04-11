@@ -1,5 +1,7 @@
 <?php
 
+
+//Dennis
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -14,10 +16,10 @@ class ReserveringenController extends Controller
     {
         try {
             // Get the 'from_date' filter from the request
-            $fromDate = $request->input('from_date'); 
-            
+            $fromDate = $request->input('from_date');
+
             // Fetch all reserveringen using the stored procedure
-            $reserveringen = collect(DB::select('CALL GetAllReserveringen()')); 
+            $reserveringen = collect(DB::select('CALL GetAllReserveringen()'));
             $errorMessage = null;
 
             // Apply filtering if 'from_date' is provided

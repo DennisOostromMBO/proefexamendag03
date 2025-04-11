@@ -12,40 +12,27 @@ class PersoonSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('persoon')->insert([
-            ['id' => 1, 'TypePersoon' => 'Klant', 'Voornaam' => 'Mazin', 'Tussenvoegsel' => null, 'Achternaam' => 'Jamil', 'Roepnaam' => 'Mazin', 'IsVolwassen' => 1],
-            ['id' => 2, 'TypePersoon' => 'Klant', 'Voornaam' => 'Arjan', 'Tussenvoegsel' => 'de', 'Achternaam' => 'Ruijter', 'Roepnaam' => 'Arjan', 'IsVolwassen' => 1],
-            ['id' => 3, 'TypePersoon' => 'Klant', 'Voornaam' => 'Hans', 'Tussenvoegsel' => null, 'Achternaam' => 'Odijk', 'Roepnaam' => 'Hans', 'IsVolwassen' => 1],
-            ['id' => 4, 'TypePersoon' => 'Klant', 'Voornaam' => 'Dennis', 'Tussenvoegsel' => 'van', 'Achternaam' => 'Wakeren', 'Roepnaam' => 'Dennis', 'IsVolwassen' => 1],
-            ['id' => 5, 'TypePersoon' => 'Medewerker', 'Voornaam' => 'Wilco', 'Tussenvoegsel' => 'Van de', 'Achternaam' => 'Grift', 'Roepnaam' => 'Wilco', 'IsVolwassen' => 1],
-            ['id' => 6, 'TypePersoon' => 'Gast', 'Voornaam' => 'Tom', 'Tussenvoegsel' => null, 'Achternaam' => 'Sanders', 'Roepnaam' => 'Tom', 'IsVolwassen' => 0],
-            ['id' => 7, 'TypePersoon' => 'Gast', 'Voornaam' => 'Andrew', 'Tussenvoegsel' => null, 'Achternaam' => 'Sanders', 'Roepnaam' => 'Andrew', 'IsVolwassen' => 0],
-            ['id' => 8, 'TypePersoon' => 'Gast', 'Voornaam' => 'Julian', 'Tussenvoegsel' => null, 'Achternaam' => 'Kaldenheuvel', 'Roepnaam' => 'Julian', 'IsVolwassen' => 1],
+        // First make sure we have the type_persoons table populated
+        if (DB::table('type_persoons')->count() === 0) {
+            DB::table('type_persoons')->insert([
+                ['id' => 1, 'naam' => 'Klant', 'is_active' => 1, 'datum_aangemaakt' => now(), 'datum_gewijzigd' => now()],
+                ['id' => 2, 'naam' => 'Medewerker', 'is_active' => 1, 'datum_aangemaakt' => now(), 'datum_gewijzigd' => now()],
+                ['id' => 3, 'naam' => 'Gast', 'is_active' => 1, 'datum_aangemaakt' => now(), 'datum_gewijzigd' => now()],
+            ]);
+        }
+
+        // Now insert the persoons data with proper type_persoon_id values
+        DB::table('persoons')->insert([
+            ['id' => 1, 'type_persoon_id' => 1, 'voornaam' => 'Mazin', 'tussenvoegsel' => null, 'achternaam' => 'Jamil', 'roepnaam' => 'Mazin', 'is_volwassen' => 1, 'is_active' => 1, 'opmerking' => null, 'datum_aangemaakt' => now(), 'datum_gewijzigd' => now()],
+            ['id' => 2, 'type_persoon_id' => 1, 'voornaam' => 'Arjan', 'tussenvoegsel' => 'de', 'achternaam' => 'Ruijter', 'roepnaam' => 'Arjan', 'is_volwassen' => 1, 'is_active' => 1, 'opmerking' => null, 'datum_aangemaakt' => now(), 'datum_gewijzigd' => now()],
+            ['id' => 3, 'type_persoon_id' => 1, 'voornaam' => 'Hans', 'tussenvoegsel' => null, 'achternaam' => 'Odijk', 'roepnaam' => 'Hans', 'is_volwassen' => 1, 'is_active' => 1, 'opmerking' => null, 'datum_aangemaakt' => now(), 'datum_gewijzigd' => now()],
+            ['id' => 4, 'type_persoon_id' => 1, 'voornaam' => 'Dennis', 'tussenvoegsel' => 'van', 'achternaam' => 'Wakeren', 'roepnaam' => 'Dennis', 'is_volwassen' => 1, 'is_active' => 1, 'opmerking' => null, 'datum_aangemaakt' => now(), 'datum_gewijzigd' => now()],
+            ['id' => 5, 'type_persoon_id' => 2, 'voornaam' => 'Wilco', 'tussenvoegsel' => 'Van de', 'achternaam' => 'Grift', 'roepnaam' => 'Wilco', 'is_volwassen' => 1, 'is_active' => 1, 'opmerking' => null, 'datum_aangemaakt' => now(), 'datum_gewijzigd' => now()],
+            ['id' => 6, 'type_persoon_id' => 3, 'voornaam' => 'Tom', 'tussenvoegsel' => null, 'achternaam' => 'Sanders', 'roepnaam' => 'Tom', 'is_volwassen' => 0, 'is_active' => 1, 'opmerking' => null, 'datum_aangemaakt' => now(), 'datum_gewijzigd' => now()],
+            ['id' => 7, 'type_persoon_id' => 3, 'voornaam' => 'Andrew', 'tussenvoegsel' => null, 'achternaam' => 'Sanders', 'roepnaam' => 'Andrew', 'is_volwassen' => 0, 'is_active' => 1, 'opmerking' => null, 'datum_aangemaakt' => now(), 'datum_gewijzigd' => now()],
+            ['id' => 8, 'type_persoon_id' => 3, 'voornaam' => 'Julian', 'tussenvoegsel' => null, 'achternaam' => 'Kaldenheuvel', 'roepnaam' => 'Julian', 'is_volwassen' => 1, 'is_active' => 1, 'opmerking' => null, 'datum_aangemaakt' => now(), 'datum_gewijzigd' => now()],
         ]);
     }
 }
-    {
-        $personen = [
-            [1, 'Mazin', null, 'Jamil', 'Mazin', true],
-            [1, 'Arjan', 'de', 'Ruijter', 'Arjan', true],
-            [1, 'Hans', null, 'Odijk', 'Hans', true],
-            [1, 'Dennis', 'van', 'Wakeren', 'Dennis', true],
-            [2, 'Wilco', 'Van de', 'Grift', 'Wilco', true],
-            [3, 'Tom', null, 'Sanders', 'Tom', false],
-            [3, 'Andrew', null, 'Sanders', 'Andrew', false],
-            [3, 'Julian', null, 'Kaldenheuvel', 'Julian', true],
-        ];
-
-        foreach ($personen as [$typeId, $voor, $tussen, $achter, $roep, $volwassen]) {
-            DB::table('persoons')->insert([
-                'type_persoon_id' => $typeId,
-                'voornaam' => $voor,
-                'tussenvoegsel' => $tussen,
-                'achternaam' => $achter,
-                'roepnaam' => $roep,
-                'is_volwassen' => $volwassen,
-            ]);
-        }
-    }
 
 

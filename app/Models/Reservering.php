@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Reservering extends Model
 {
     use HasFactory;
-
-    protected $table = 'reservering';
+// Wassim
+    protected $table = 'reserveringen';
     public $timestamps = false;
 
     protected $fillable = [

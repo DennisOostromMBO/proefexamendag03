@@ -103,7 +103,7 @@ class ReserveringSeeder extends Seeder
         ];
 
         // Insert all reservations into the database
-        DB::table('reservering')->insert($reserveringen);
+        DB::table('reserveringen')->insert($reserveringen);
     }
 }
 

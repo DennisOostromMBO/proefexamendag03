@@ -37,7 +37,7 @@ class DatabaseService
                 po.naam AS pakketoptie_naam,
                 b.nummer AS baan_nummer
             FROM
-                reservering r
+                reserveringen r
             INNER JOIN persoons p ON r.persoon_id = p.id
             INNER JOIN baans b ON r.baan_id = b.id
             LEFT JOIN pakket_opties po ON r.pakketoptie_id = po.id
@@ -84,7 +84,7 @@ class DatabaseService
                 p.achternaam,
                 p.roepnaam
             FROM
-                reservering r
+                reserveringen r
             INNER JOIN persoons p ON r.persoon_id = p.id
             WHERE
                 r.id = ?
@@ -135,7 +135,7 @@ class DatabaseService
         // Check if reservation has children
         $reservation = DB::selectOne("
             SELECT aantal_kinderen > 0 AS has_children
-            FROM reservering
+            FROM reserveringen
             WHERE id = ?
         ", [$reservationId]);
 
@@ -157,7 +157,7 @@ class DatabaseService
             } else {
                 // Update the package option
                 DB::update("
-                    UPDATE reservering
+                    UPDATE reserveringen
                     SET pakketoptie_id = ?,
                         datum_gewijzigd = CURRENT_TIMESTAMP
                     WHERE id = ?
@@ -171,7 +171,7 @@ class DatabaseService
         } else {
             // Update with NULL (no package)
             DB::update("
-                UPDATE reservering
+                UPDATE reserveringen
                 SET pakketoptie_id = NULL,
                     datum_gewijzigd = CURRENT_TIMESTAMP
                 WHERE id = ?
