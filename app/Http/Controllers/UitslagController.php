@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Uitslag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,19 +16,19 @@ class UitslagController extends Controller
             // Fetch uitslagen data with additional fields
             $uitslagen = DB::table('uitslag')
                 ->join('spel', 'uitslag.SpelId', '=', 'spel.id')
-                ->join('persoon', 'spel.PersoonId', '=', 'persoon.id')
-                ->join('reservering', 'spel.ReserveringId', '=', 'reservering.id')
+                ->join('persoons', 'spel.persoons_id', '=', 'persoons.id')
+                ->join('reserveringen', 'spel.reservering_id', '=', 'reserveringen.id')
                 ->select(
                     'uitslag.id AS UitslagId',
                     'uitslag.SpelId',
                     'uitslag.Aantalpunten',
-                    DB::raw("CONCAT(persoon.Voornaam, ' ', IFNULL(persoon.Tussenvoegsel, ''), ' ', persoon.Achternaam) AS Naam"),
-                    'reservering.datum AS Datum',
-                    'reservering.aantal_uren AS AantalUren',
-                    'reservering.begin_tijd AS BeginTijd',
-                    'reservering.eind_tijd AS EindTijd',
-                    'reservering.aantal_volwassen AS AantalVolwassen',
-                    'reservering.aantal_kinderen AS AantalKinderen'
+                    DB::raw("CONCAT(persoons.voornaam, ' ', IFNULL(persoons.tussenvoegsel, ''), ' ', persoons.achternaam) AS Naam"),
+                    'reserveringen.datum AS Datum',
+                    'reserveringen.aantal_uren AS AantalUren',
+                    'reserveringen.begin_tijd AS BeginTijd',
+                    'reserveringen.eind_tijd AS EindTijd',
+                    'reserveringen.aantal_volwassen AS AantalVolwassen',
+                    'reserveringen.aantal_kinderen AS AantalKinderen'
                 )
                 ->orderBy('uitslag.Aantalpunten', 'DESC')
                 ->get();
@@ -49,12 +48,12 @@ class UitslagController extends Controller
         try {
             $uitslag = DB::table('uitslag')
                 ->join('spel', 'uitslag.SpelId', '=', 'spel.id')
-                ->join('persoon', 'spel.PersoonId', '=', 'persoon.id')
+                ->join('persoons', 'spel.persoons_id', '=', 'persoons.id')
                 ->select(
                     'uitslag.id AS UitslagId',
                     'uitslag.SpelId',
                     'uitslag.Aantalpunten',
-                    DB::raw("CONCAT(persoon.Voornaam, ' ', IFNULL(persoon.Tussenvoegsel, ''), ' ', persoon.Achternaam) AS Naam")
+                    DB::raw("CONCAT(persoons.voornaam, ' ', IFNULL(persoons.tussenvoegsel, ''), ' ', persoons.achternaam) AS Naam")
                 )
                 ->where('uitslag.id', $id)
                 ->first();
@@ -91,7 +90,7 @@ class UitslagController extends Controller
                 $reserveringId = DB::table('spel')
                     ->join('uitslag', 'spel.id', '=', 'uitslag.SpelId')
                     ->where('uitslag.id', $id)
-                    ->value('spel.ReserveringId');
+                    ->value('spel.reservering_id');
 
                 // Redirect to the reservering.uitslagen route
                 return redirect()->route('reservering.uitslagen', ['id' => $reserveringId])
@@ -112,14 +111,14 @@ class UitslagController extends Controller
         try {
             $uitslagen = DB::table('uitslag')
                 ->join('spel', 'uitslag.SpelId', '=', 'spel.id')
-                ->join('persoon', 'spel.PersoonId', '=', 'persoon.id')
+                ->join('persoons', 'spel.persoons_id', '=', 'persoons.id')
                 ->select(
                     'uitslag.id AS UitslagId',
                     'uitslag.SpelId',
                     'uitslag.Aantalpunten',
-                    DB::raw("CONCAT(persoon.Voornaam, ' ', IFNULL(persoon.Tussenvoegsel, ''), ' ', persoon.Achternaam) AS Naam")
+                    DB::raw("CONCAT(persoons.voornaam, ' ', IFNULL(persoons.tussenvoegsel, ''), ' ', persoons.achternaam) AS Naam")
                 )
-                ->where('spel.ReserveringId', $id)
+                ->where('spel.reservering_id', $id)
                 ->orderBy('uitslag.Aantalpunten', 'DESC')
                 ->get();
 
