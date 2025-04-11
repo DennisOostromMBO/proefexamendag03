@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('reserveringen', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('persoon_id');
-            $table->unsignedBigInteger('openingstijd_id');
-            $table->unsignedBigInteger('baan_id');
-            $table->unsignedBigInteger('pakketoptie_id')->nullable();
+            $table->foreignId('persoon_id')->constrained('persoons');
+            $table->foreignId('openingstijd_id')->constrained('openings_tijds');
+            $table->foreignId('baan_id')->constrained('baans');
+            $table->foreignId('pakketoptie_id')->nullable()->constrained('pakket_opties');
             $table->string('reservering_status');
             $table->string('reserveringsnummer')->unique();
             $table->date('datum');
@@ -25,7 +25,8 @@ return new class extends Migration
             $table->time('eind_tijd');
             $table->integer('aantal_volwassen');
             $table->integer('aantal_kinderen')->nullable();
-            $table->timestamps();
+            $table->timestamp('datum_aangemaakt')->useCurrent();
+            $table->timestamp('datum_gewijzigd')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
