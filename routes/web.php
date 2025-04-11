@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ReserveringController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReserveringenController;
 
 /*
 |--------------------------------------------------------------------------
