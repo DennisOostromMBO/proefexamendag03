@@ -49,3 +49,4 @@ class PersoonSeeder extends Seeder
         }
     }
 }
+

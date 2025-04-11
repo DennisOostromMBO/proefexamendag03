@@ -19,7 +19,11 @@ Route::get('/', function () {
 });
 
 @include_once __DIR__.'/uitslag.php';
+
+require __DIR__.'/mahdi.php';
+
 // Reserveringen routes
 Route::get('/reserveringen', [ReserveringController::class, 'index'])->name('reserveringen.index');
 Route::get('/reserveringen/{id}/edit-pakket', [ReserveringController::class, 'editPakket'])->name('reserveringen.edit.pakket');
 Route::post('/reserveringen/{id}/update-pakket', [ReserveringController::class, 'updatePakket'])->name('reserveringen.update.pakket');
+
