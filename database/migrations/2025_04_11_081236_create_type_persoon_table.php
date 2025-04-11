@@ -12,7 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('type_persoon', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // Primary key
+            $table->string('type', 20); // Type of person (e.g., Klant, Medewerker, Gast)
+            $table->boolean('IsActive')->default(true); // Active/inactive status
+            $table->string('Opmerking', 255)->nullable(); // Optional remarks
+            $table->dateTime('DatumAangemaakt')->useCurrent(); // Creation timestamp
+            $table->dateTime('DatumGewijzigd')->nullable()->useCurrentOnUpdate(); // Last modified timestamp
             $table->timestamps();
         });
     }
