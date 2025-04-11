@@ -14,23 +14,25 @@ class ReserveringController extends Controller
     public function index(Request $request)
     {
         try {
-            // Get the 'reservering_id' filter from the request
-            $reserveringId = $request->query('reservering_id'); 
+            // Fetch all reserveringen with related data
+            $reserveringen = DB::table('reservering')
+                ->join('persoon', 'reservering.PersoonId', '=', 'persoon.id')
+                ->select(
+                    'reservering.id AS ReserveringId',
+                    DB::raw("CONCAT(persoon.Voornaam, ' ', IFNULL(persoon.Tussenvoegsel, ''), ' ', persoon.Achternaam) AS Naam"),
+                    'reservering.Datum',
+                    'reservering.AantalUren',
+                    'reservering.BeginTijd',
+                    'reservering.EindTijd',
+                    'reservering.AantalVolwassen',
+                    'reservering.AantalKinderen'
+                )
+                ->orderBy('reservering.Datum', 'DESC')
+                ->get();
 
-            // Fetch all uitslagen using the stored procedure
-            $uitslagen = collect(DB::select('CALL GetUitslagenByReservering(?)', [$reserveringId])); 
-            $errorMessage = null;
-
-            // Check if the result is empty
-            if ($uitslagen->isEmpty()) {
-                $errorMessage = 'Geen uitslagen gevonden voor deze reservering.';
-            }
-
-            // Return the view with the data
-            return view('reservering.index', compact('uitslagen', 'reserveringId', 'errorMessage'));
+            return view('uitslag.index', compact('reserveringen'));
         } catch (\Exception $e) {
-            // Log the exception and return an error message
-            return back()->withErrors(['message' => 'Er is een fout opgetreden bij het ophalen van de uitslagen.']);
+            return back()->withErrors(['message' => 'Er is een fout opgetreden bij het ophalen van de reserveringen.']);
         }
     }
 
@@ -80,5 +82,30 @@ class ReserveringController extends Controller
     public function destroy(Reservering $reservering)
     {
         //
+    }
+
+    /**
+     * Display the uitslagen for a specific reservering.
+     */
+    public function showUitslagen($id)
+    {
+        try {
+            $uitslagen = DB::table('uitslag')
+                ->join('spel', 'uitslag.SpelId', '=', 'spel.id')
+                ->join('persoon', 'spel.PersoonId', '=', 'persoon.id')
+                ->select(
+                    'uitslag.id AS UitslagId',
+                    'uitslag.SpelId',
+                    'uitslag.Aantalpunten',
+                    DB::raw("CONCAT(persoon.Voornaam, ' ', IFNULL(persoon.Tussenvoegsel, ''), ' ', persoon.Achternaam) AS Naam")
+                )
+                ->where('spel.ReserveringId', $id)
+                ->orderBy('uitslag.Aantalpunten', 'DESC')
+                ->get();
+
+            return view('uitslag.uitslagen', compact('uitslagen'));
+        } catch (\Exception $e) {
+            return back()->withErrors(['message' => 'Er is een fout opgetreden bij het ophalen van de uitslagen.']);
+        }
     }
 }
