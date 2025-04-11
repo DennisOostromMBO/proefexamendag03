@@ -1,26 +1,21 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Laravel</title>
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex flex-col min-h-screen">
-        {{-- Include the Navbar Component --}}
-        <x-navbar />
+@extends('layouts.app')
 
-        {{-- Main Content --}}
-        <div class="flex-grow flex items-center justify-center">
-            <main class="text-center">
-                <h1 class="text-4xl font-bold mb-4">Welkom op mijn pagina!</h1>
-                <p class="text-lg">Gebruik de navigatiebalk om door de website te bladeren.</p>
-            </main>
+@section('title', 'Home')
+
+@section('content')
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2>Welkom bij Bowlingcentrum</h2>
+            </div>
+            <div class="card-body">
+                <p class="lead">Wat wilt u doen?</p>
+                <div class="d-grid gap-2">
+                    <a href="{{ route('reserveringen.index') }}" class="btn btn-primary btn-lg">Overzicht reserveringen bekijken</a>
+                </div>
+            </div>
         </div>
-
-        {{-- Footer --}}
-        <footer class="bg-gray-800 text-white text-center p-4">
-            &copy; {{ date('Y') }} Mijn Website. Alle rechten voorbehouden.
-        </footer>
-    </body>
-</html>
+    </div>
+</div>
+@endsection
