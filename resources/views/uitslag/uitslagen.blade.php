@@ -14,6 +14,7 @@
                 <th>Spel ID</th>
                 <th>Naam</th>
                 <th>Aantal punten</th>
+                <th>Acties</th>
             </tr>
         </thead>
         <tbody>
@@ -23,10 +24,15 @@
                     <td>{{ $uitslag->SpelId }}</td>
                     <td>{{ $uitslag->Naam }}</td>
                     <td>{{ $uitslag->Aantalpunten }}</td>
+                    <td>
+                        <a href="{{ route('uitslag.edit', ['id' => $uitslag->UitslagId]) }}" class="btn btn-warning btn-sm">
+                            Wijzigen
+                        </a>
+                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="text-center text-muted">
+                    <td colspan="5" class="text-center text-muted">
                         Van de geselecteerde reservering zijn geen uitslagen bekend.
                     </td>
                 </tr>
