@@ -7,21 +7,16 @@
 <div class="container mt-4">
     <h1 class="mb-4">Detail Uitslag</h1>
 
-    {{-- Display Validation Errors --}}
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
     {{-- Edit Form --}}
     <form method="POST" action="{{ route('uitslag.update', ['id' => $uitslag->UitslagId]) }}">
         @csrf
-        @method('PUT')
+        @method('POST')
+
+        <div class="mb-3">
+            <label for="Naam" class="form-label">Naam:</label>
+            <input type="text" class="form-control" id="Naam" name="Naam" value="{{ $uitslag->Naam }}" disabled>
+        </div>
 
         <div class="mb-3">
             <label for="Aantalpunten" class="form-label">Aantal punten:</label>

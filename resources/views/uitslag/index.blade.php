@@ -1,4 +1,3 @@
-{{-- filepath: c:\Users\danie\OneDrive\Documenten\school mappen\Leerjaar 2\Oefenexamen\proefexamendag03\resources\views\uitslag\index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Overzicht Uitslagen')
