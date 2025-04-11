@@ -4,9 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Overzicht Klanten</title>
+    <script>
+        // Redirect to the index page after 4 seconds if a success message is present
+        document.addEventListener('DOMContentLoaded', function () {
+            const successMessage = document.getElementById('success-message');
+            if (successMessage) {
+                setTimeout(() => {
+                    window.location.href = "{{ route('klanten.index') }}";
+                }, 4000);
+            }
+        });
+    </script>
 </head>
 <body>
     <h1>Overzicht Klanten</h1>
+
+    @if (session('success'))
+        <div id="success-message" style="color: green; font-weight: bold;">
+            {{ session('success') }}
+        </div>
+    @endif
 
     <form method="GET" action="{{ route('klanten.index') }}">
         <label for="datum">Datum:</label>

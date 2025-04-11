@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('Voornaam', 51);
             $table->string('Tussenvoegsel', 20)->nullable();
             $table->string('Achternaam', 41);
-            $table->string('Roepnaam', 50);
+            $table->string('Roepnaam', 50)->nullable(); // Make Roepnaam nullable
             $table->boolean('IsVolwassen');
             $table->boolean('IsActive')->default(true);
             $table->text('Opmerking')->nullable();
