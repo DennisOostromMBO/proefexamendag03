@@ -1,6 +1,7 @@
 CREATE PROCEDURE GetAllBanen()
 BEGIN
     SELECT 
+        r.id AS reservering_id, 
         CONCAT(p.voornaam, ' ', IFNULL(p.tussenvoegsel, ''), ' ', p.achternaam) AS naam,
         r.datum,
         r.aantal_volwassen,

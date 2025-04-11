@@ -11,6 +11,7 @@ return new class extends Migration
         // Drop existing procedures
         DB::unprepared('DROP PROCEDURE IF EXISTS GetAllReserveringen');
         DB::unprepared('DROP PROCEDURE IF EXISTS GetAllBanen');
+        DB::unprepared('DROP PROCEDURE IF EXISTS WijzigBaan');
 
         // Create procedures
         $pathGetAllReserveringen = database_path('SP/GetAllreserveringen.sql');
@@ -18,6 +19,9 @@ return new class extends Migration
 
         $pathGetAllBanen = database_path('SP/GetAllbanen.sql');
         DB::unprepared(File::get($pathGetAllBanen));
+
+        $pathWijzigBaan = database_path('SP/WijzigBaan.sql');
+        DB::unprepared(File::get($pathWijzigBaan));
     }
 
     public function down(): void
@@ -25,5 +29,6 @@ return new class extends Migration
         // Drop procedures
         DB::unprepared('DROP PROCEDURE IF EXISTS GetAllReserveringen');
         DB::unprepared('DROP PROCEDURE IF EXISTS GetAllBanen');
+        DB::unprepared('DROP PROCEDURE IF EXISTS WijzigBaan');
     }
 };

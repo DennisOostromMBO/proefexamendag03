@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overzicht Banen</title>
+    <title>Overzicht Reserveringen</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,6 +12,11 @@
         h1 {
             text-align: center;
             color: #333;
+        }
+        .success {
+            color: green;
+            text-align: center;
+            margin-bottom: 20px;
         }
         table {
             width: 100%;
@@ -57,7 +62,13 @@
     </style>
 </head>
 <body>
-    <h1>Overzicht Banen</h1>
+    <h1>Overzicht reserveringen</h1>
+
+    @if (session('success'))
+        <div class="success">
+            <p>{{ session('success') }}</p>
+        </div>
+    @endif
 
     @if ($errors->any())
         <div class="error">
@@ -84,7 +95,7 @@
                         <td>{{ $baan->aantal_kinderen ?? 'geen' }}</td>
                         <td>{{ $baan->baan }}</td>
                         <td>
-                            <a href="#" class="edit-button">
+                            <a href="{{ route('reserveringen.edit', ['id' => $baan->reservering_id]) }}" class="edit-button">
                                 <svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path d="M3 17.25V21h3.75l11.06-11.06-3.75-3.75L3 17.25zm2.92 2.92H4.5v-1.42l9.06-9.06 1.42 1.42-9.06 9.06zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
                                 </svg>
