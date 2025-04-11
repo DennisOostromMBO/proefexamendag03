@@ -112,7 +112,7 @@ class ReserveringSeeder extends Seeder
         ];
 
         foreach ($reserveringen as $reservering) {
-            DB::table('reserveringen')->insert($reservering);
+            DB::table('reservering')->insert($reservering);
         }
     
     }
