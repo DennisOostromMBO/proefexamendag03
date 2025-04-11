@@ -118,12 +118,12 @@ class PersoonController extends Controller
             'Email' => 'nullable|email|max:255|unique:contacts,Email,' . $id . ',PersoonId',
         ]);
 
-        // Split the validated data into 'persoons' and 'contacts' fields
+        // Provide a default value for Roepnaam if it is null
         $persoonData = [
             'Voornaam' => $validatedData['Voornaam'],
             'Tussenvoegsel' => $validatedData['Tussenvoegsel'] ?? null,
             'Achternaam' => $validatedData['Achternaam'],
-            'Roepnaam' => $validatedData['Roepnaam'] ?? null, // Default to null if not provided
+            'Roepnaam' => $validatedData['Roepnaam'] ?? $validatedData['Voornaam'], // Default to Voornaam
             'IsVolwassen' => $validatedData['IsVolwassen'] ?? false,
         ];
 
