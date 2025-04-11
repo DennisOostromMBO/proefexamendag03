@@ -30,6 +30,10 @@
             width: auto;
             margin-right: 10px;
         }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
         button {
             margin-top: 20px;
             padding: 10px 20px;
@@ -46,32 +50,47 @@
 
         <div class="form-row">
             <label for="voornaam">Voornaam:</label>
-            <input type="text" id="voornaam" name="voornaam" value="{{ $klant->Voornaam }}">
+            <input type="text" id="voornaam" name="Voornaam" value="{{ old('Voornaam', $klant->Voornaam) }}" required>
+            @error('Voornaam')
+                <div class="error">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-row">
             <label for="tussenvoegsel">Tussenvoegsel:</label>
-            <input type="text" id="tussenvoegsel" name="tussenvoegsel" value="{{ $klant->Tussenvoegsel }}">
+            <input type="text" id="tussenvoegsel" name="Tussenvoegsel" value="{{ old('Tussenvoegsel', $klant->Tussenvoegsel) }}">
+            @error('Tussenvoegsel')
+                <div class="error">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-row">
             <label for="achternaam">Achternaam:</label>
-            <input type="text" id="achternaam" name="achternaam" value="{{ $klant->Achternaam }}">
+            <input type="text" id="achternaam" name="Achternaam" value="{{ old('Achternaam', $klant->Achternaam) }}" required>
+            @error('Achternaam')
+                <div class="error">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-row">
             <label for="mobiel">Mobiel:</label>
-            <input type="tel" id="mobiel" name="mobiel" value="{{ $klant->Mobiel }}">
+            <input type="tel" id="mobiel" name="Mobiel" value="{{ old('Mobiel', $klant->Mobiel) }}">
+            @error('Mobiel')
+                <div class="error">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-row">
             <label for="email">E-mail:</label>
-            <input type="email" id="email" name="email" value="{{ $klant->Email }}">
+            <input type="email" id="email" name="Email" value="{{ old('Email', $klant->Email) }}">
+            @error('Email')
+                <div class="error">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="checkbox-row">
             <label for="volwassen">Volwassen:</label>
-            <input type="checkbox" id="volwassen" name="is_volwassen" {{ $klant->IsVolwassen ? 'checked' : '' }}>
+            <input type="checkbox" id="volwassen" name="IsVolwassen" value="1" {{ old('IsVolwassen', $klant->IsVolwassen) ? 'checked' : '' }}>
         </div>
 
         <button type="submit">Wijzigen</button>
