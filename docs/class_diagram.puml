@@ -1,0 +1,81 @@
+@startuml Bowlingcentrum Class Diagram
+
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+
+package "Controllers" {
+  class ReserveringController {
+    - databaseService: DatabaseService
+    + __construct(DatabaseService)
+    + index(Request): View
+    + getBevestigdeReserveringen(Request): View
+    + editPakket(id): View
+    + updatePakket(Request, id): Redirect
+  }
+}
+
+package "Services" {
+  class DatabaseService {
+    + getConfirmedReservations(cutoffDate): Collection
+    + getReservationDetails(reservationId): Object
+    + getAllPakketOpties(): Array
+    + updateReservationPackage(reservationId, pakketOptieId): Array
+  }
+}
+
+package "Models" {
+  class Persoon {
+    + typePersoon(): BelongsTo
+    + reserveringen(): HasMany
+    + getFullNameAttribute(): String
+  }
+
+  class TypePersoon {
+    + personen(): HasMany
+  }
+
+  class Reservering {
+    + persoon(): BelongsTo
+    + openingsTijd(): BelongsTo
+    + baan(): BelongsTo
+    + pakketOptie(): BelongsTo
+    + isBevestigd(): Boolean
+  }
+
+  class OpeningsTijd {
+    + reserveringen(): HasMany
+  }
+
+  class Baan {
+    + reserveringen(): HasMany
+  }
+
+  class PakketOptie {
+    + reserveringen(): HasMany
+  }
+
+  class ReserveringStatus {
+    + reserveringen(): HasMany
+  }
+}
+
+package "Database" {
+  class StoredProcedures <<database>> {
+    + GetConfirmedReservations(cutoffDate)
+    + GetReservationDetails(reservationId)
+    + GetAllPakketOpties()
+    + UpdateReservationPackage(reservationId, pakketOptieId, OUT resultMessage)
+  }
+}
+
+' Relationships
+ReserveringController --> DatabaseService
+DatabaseService --> StoredProcedures
+
+Persoon "1" --> "1" TypePersoon : belongs to
+Reservering "1" --> "1" Persoon : belongs to
+Reservering "1" --> "1" OpeningsTijd : belongs to
+Reservering "1" --> "1" Baan : belongs to
+Reservering "1" --> "0..1" PakketOptie : belongs to
+
+@enduml
