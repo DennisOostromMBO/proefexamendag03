@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Persoon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PersoonController extends Controller
 {
@@ -12,7 +13,12 @@ class PersoonController extends Controller
      */
     public function index()
     {
-        return response()->json(Persoon::all());
+        $klanten = DB::table('persoons')
+            ->join('contacts', 'persoons.id', '=', 'contacts.PersoonId')
+            ->select('persoons.Voornaam', 'persoons.Tussenvoegsel', 'persoons.Achternaam', 'persoons.IsVolwassen', 'contacts.Mobiel', 'contacts.Email')
+            ->get();
+
+        return view('contact.index', ['klanten' => $klanten]);
     }
 
     /**
