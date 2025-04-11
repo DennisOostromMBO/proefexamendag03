@@ -42,6 +42,26 @@
             </div>
         @endif
 
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        {{-- Main Content --}}
+        <div class="flex-grow">
+            @yield('content')
+        </div>
+
+        {{-- Footer --}}
+        <footer class="bg-gray-800 text-white text-center p-4">
+            &copy; {{ date('Y') }} Mijn Website. Alle rechten voorbehouden.
+        </footer>
+    </body>
         @if(session('error'))
             <div class="alert alert-danger mt-3">
                 {{ session('error') }}

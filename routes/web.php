@@ -19,3 +19,8 @@ Route::get('/', function () {
 });
 
 require __DIR__ . '/wassim.php';
+@include_once __DIR__.'/uitslag.php';
+
+require __DIR__.'/mahdi.php';
+
+

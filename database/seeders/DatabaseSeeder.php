@@ -19,6 +19,11 @@ class DatabaseSeeder extends Seeder
             PersoonSeeder::class,
             ReserveringStatusSeeder::class,
             ReserveringSeeder::class,
+            ContactSeeder::class,
+            SpelSeeder::class,
+            UitslagSeeder::class,
         ]);
+
+    
     }
 }
