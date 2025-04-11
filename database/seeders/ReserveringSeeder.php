@@ -24,8 +24,7 @@ class ReserveringSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
-    {
+
         // Get IDs to use in the reservations
         $personen = Persoon::where('type_persoon_id', 1)->pluck('id')->toArray(); // Klanten
         $banen = Baan::pluck('id')->toArray();
@@ -115,5 +114,7 @@ class ReserveringSeeder extends Seeder
         foreach ($reserveringen as $reservering) {
             DB::table('reserveringen')->insert($reservering);
         }
+    
     }
 }
+

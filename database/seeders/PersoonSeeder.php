@@ -24,7 +24,6 @@ class PersoonSeeder extends Seeder
         ]);
     }
 }
-    public function run(): void
     {
         $personen = [
             [1, 'Mazin', null, 'Jamil', 'Mazin', true],
@@ -48,5 +47,5 @@ class PersoonSeeder extends Seeder
             ]);
         }
     }
-}
+
 
