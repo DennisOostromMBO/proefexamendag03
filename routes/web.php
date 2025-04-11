@@ -18,7 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Reserveringen routes
-Route::get('/reserveringen', [ReserveringController::class, 'index'])->name('reserveringen.index');
-Route::get('/reserveringen/{id}/edit-pakket', [ReserveringController::class, 'editPakket'])->name('reserveringen.edit.pakket');
-Route::post('/reserveringen/{id}/update-pakket', [ReserveringController::class, 'updatePakket'])->name('reserveringen.update.pakket');
+require __DIR__ . '/wassim.php';

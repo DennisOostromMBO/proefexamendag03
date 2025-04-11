@@ -9,7 +9,7 @@ class Reservering extends Model
 {
     use HasFactory;
 
-    protected $table = 'reserveringen';
+    protected $table = 'reservering';
     public $timestamps = false;
 
     protected $fillable = [
