@@ -55,6 +55,7 @@
             </div>
 
             <div class="form-check mb-3">
+                <input type="hidden" name="is_volwassen" value="0">
                 <input type="checkbox" id="volwassen" name="is_volwassen" class="form-check-input" value="1" {{ old('is_volwassen', $klant->is_volwassen) ? 'checked' : '' }}>
                 <label for="volwassen" class="form-check-label">Volwassen</label>
             </div>

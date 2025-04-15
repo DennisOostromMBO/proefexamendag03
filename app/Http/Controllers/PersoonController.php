@@ -60,11 +60,13 @@ class PersoonController extends Controller
     {
         $validated = $request->validate([
             'type_persoon' => 'required|integer|exists:type_persoons,id',
-            'Voornaam' => 'required|string|max:51',
-            'Tussenvoegsel' => 'nullable|string|max:20',
-            'Achternaam' => 'required|string|max:41',
-            'Roepnaam' => 'required|string|max:50',
+            'Voornaam' => 'required|string|max:51|regex:/^[a-zA-Z]+$/',
+            'Tussenvoegsel' => 'nullable|string|max:20|regex:/^[a-zA-Z\s]+$/',
+            'Achternaam' => 'required|string|max:41|regex:/^[a-zA-Z]+$/',
+            'Roepnaam' => 'required|string|max:50|regex:/^[a-zA-Z]+$/',
             'is_volwassen' => 'required|boolean',
+        ], [
+            'regex' => 'Dit is niet toegestaan',
         ]);
 
         $persoon = Persoon::create($validated);
@@ -128,13 +130,15 @@ class PersoonController extends Controller
         }
 
         $validatedData = $request->validate([
-            'Voornaam' => 'required|string|max:51',
-            'Tussenvoegsel' => 'nullable|string|max:20',
-            'Achternaam' => 'required|string|max:41',
-            'Roepnaam' => 'nullable|string|max:50',
+            'Voornaam' => 'required|string|max:51|regex:/^[a-zA-Z]+$/',
+            'Tussenvoegsel' => 'nullable|string|max:20|regex:/^[a-zA-Z\s]+$/',
+            'Achternaam' => 'required|string|max:41|regex:/^[a-zA-Z]+$/',
+            'Roepnaam' => 'nullable|string|max:50|regex:/^[a-zA-Z]+$/',
             'is_volwassen' => 'nullable|boolean',
             'Mobiel' => 'nullable|string|max:255',
             'Email' => 'nullable|email|max:255|unique:contacts,Email,' . $validatedId . ',PersoonId',
+        ], [
+            'regex' => 'Dit is niet toegestaan',
         ]);
 
         $persoonData = [
@@ -142,7 +146,7 @@ class PersoonController extends Controller
             'Tussenvoegsel' => $validatedData['Tussenvoegsel'] ?? null,
             'Achternaam' => $validatedData['Achternaam'],
             'Roepnaam' => $validatedData['Roepnaam'] ?? $validatedData['Voornaam'],
-            'is_volwassen' => $validatedData['is_volwassen'] ?? false,
+            'is_volwassen' => $validatedData['is_volwassen'], // Checkbox value is handled correctly
         ];
 
         $contactData = [
