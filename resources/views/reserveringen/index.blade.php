@@ -4,87 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Overzicht Reserveringen</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .header h1 {
-            margin: 0;
-            margin-right: 20px; /* Add spacing between the header and the form */
-        }
-        form {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .error {
-            color: red;
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="header">
-        <h1>Reserveringen van Mazin Jamil</h1>
-        <form method="GET" action="{{ route('reserveringen.index') }}">
-            <label for="from_date">Datum:</label>
-            <input type="date" id="from_date" name="from_date" value="{{ $fromDate ?? '' }}">
-            <button type="submit">Toon Reserveringen</button>
-        </form>
-    </div>
-
-    @if ($errorMessage)
-        <div class="error">
-            <p>{{ $errorMessage }}</p>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+            <h1 class="text-2xl font-bold text-gray-800 text-center md:text-left">Overzicht reserveringen</h1>
+            <form method="GET" action="{{ route('reserveringen.index') }}" class="flex flex-col md:flex-row items-center gap-4">
+                <label for="from_date" class="text-gray-700 font-medium">Datum:</label>
+                <input type="date" id="from_date" name="from_date" value="{{ $fromDate ?? '' }}" class="border border-gray-300 rounded px-3 py-2">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Toon Reserveringen</button>
+            </form>
         </div>
-    @else
-        @if (!empty($reserveringen) && $reserveringen->isNotEmpty())
-            <table>
-                <thead>
-                    <tr>
-                        <th>Naam</th>
-                        <th>Datum</th>
-                        <th>Aantal Uren</th>
-                        <th>Begin Tijd</th>
-                        <th>Eind Tijd</th>
-                        <th>Aantal Volwassenen</th>
-                        <th>Aantal Kinderen</th>
-                    </tr>
-                </thead>
-                <tbody>
+
+        @if ($errorMessage)
+            <div class="bg-red-100 text-red-700 p-4 rounded mb-6">
+                <p>{{ $errorMessage }}</p>
+            </div>
+        @else
+            @if (!empty($reserveringen) && $reserveringen->isNotEmpty())
+                <div class="overflow-x-auto">
+                    <table class="min-w-full table-auto bg-white shadow-md rounded border-collapse text-xs sm:text-sm hidden sm:table">
+                        <thead>
+                            <tr class="bg-gray-200 text-gray-700">
+                                <th class="border px-2 py-1 text-left">Naam</th>
+                                <th class="border px-2 py-1 text-left">Datum</th>
+                                <th class="border px-2 py-1 text-left">Aantal Uren</th>
+                                <th class="border px-2 py-1 text-left">Begin Tijd</th>
+                                <th class="border px-2 py-1 text-left">Eind Tijd</th>
+                                <th class="border px-2 py-1 text-left">Aantal Volwassenen</th>
+                                <th class="border px-2 py-1 text-left">Aantal Kinderen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($reserveringen as $reservering)
+                                <tr class="hover:bg-gray-100">
+                                    <td class="border px-2 py-1">{{ $reservering->naam }}</td>
+                                    <td class="border px-2 py-1">{{ $reservering->datum }}</td>
+                                    <td class="border px-2 py-1">{{ $reservering->aantal_uren }}</td>
+                                    <td class="border px-2 py-1">{{ $reservering->begin_tijd }}</td>
+                                    <td class="border px-2 py-1">{{ $reservering->eind_tijd }}</td>
+                                    <td class="border px-2 py-1">{{ $reservering->aantal_volwassen }}</td>
+                                    <td class="border px-2 py-1">{{ $reservering->aantal_kinderen !== null ? $reservering->aantal_kinderen : 'geen' }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="sm:hidden">
                     @foreach ($reserveringen as $reservering)
-                        <tr>
-                            <td>{{ $reservering->naam }}</td>
-                            <td>{{ $reservering->datum }}</td>
-                            <td>{{ $reservering->aantal_uren }}</td>
-                            <td>{{ $reservering->begin_tijd }}</td>
-                            <td>{{ $reservering->eind_tijd }}</td>
-                            <td>{{ $reservering->aantal_volwassen }}</td>
-                            <td>{{ $reservering->aantal_kinderen !== null ? $reservering->aantal_kinderen : 'geen' }}</td>
-                        </tr>
+                        <div class="bg-white shadow-md rounded mb-4 p-4">
+                            <p><span class="font-bold">Naam:</span> {{ $reservering->naam }}</p>
+                            <p><span class="font-bold">Datum:</span> {{ $reservering->datum }}</p>
+                            <p><span class="font-bold">Aantal Uren:</span> {{ $reservering->aantal_uren }}</p>
+                            <p><span class="font-bold">Begin Tijd:</span> {{ $reservering->begin_tijd }}</p>
+                            <p><span class="font-bold">Eind Tijd:</span> {{ $reservering->eind_tijd }}</p>
+                            <p><span class="font-bold">Aantal Volwassenen:</span> {{ $reservering->aantal_volwassen }}</p>
+                            <p><span class="font-bold">Aantal Kinderen:</span> {{ $reservering->aantal_kinderen !== null ? $reservering->aantal_kinderen : 'geen' }}</p>
+                        </div>
                     @endforeach
-                </tbody>
-            </table>
+                </div>
+            @endif
         @endif
-    @endif
+    </div>
 </body>
 </html>
