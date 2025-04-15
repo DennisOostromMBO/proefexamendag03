@@ -21,38 +21,62 @@
         </div>
     </form>
 
-    {{-- Table --}}
-    <table class="table table-bordered table-hover">
-        <thead class="table-light">
-            <tr>
-                <th>Naam</th>
-                <th>Datum</th>
-                <th>Aantal uren</th>
-                <th>Begintijd</th>
-                <th>Eindtijd</th>
-                <th>Volwassenen</th>
-                <th>Kinderen</th>
-                <th>Score</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($uitslagen as $uitslag)
+    {{-- Desktop Table --}}
+    <div class="d-none d-md-block">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
                 <tr>
-                    <td>{{ $uitslag->Naam }}</td>
-                    <td>{{ $uitslag->Datum   }}</td>
-                    <td>{{ $uitslag->AantalUren   }}</td>
-                    <td>{{ $uitslag->BeginTijd   }}</td>
-                    <td>{{ $uitslag->EindTijd   }}</td>
-                    <td>{{ $uitslag->AantalVolwassen   }}</td>
-                    <td>{{ $uitslag->AantalKinderen   }}</td>
-                    <td>
-                        <a href="{{ route('reservering.uitslagen', ['id' => $uitslag->UitslagId]) }}" class="btn btn-primary btn-sm">
-                            Bekijk Score
-                        </a>
-                    </td>
+                    <th>Naam</th>
+                    <th>Datum</th>
+                    <th>Aantal uren</th>
+                    <th>Begintijd</th>
+                    <th>Eindtijd</th>
+                    <th>Volwassenen</th>
+                    <th>Kinderen</th>
+                    <th>Score</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($uitslagen as $uitslag)
+                    <tr>
+                        <td>{{ $uitslag->Naam }}</td>
+                        <td>{{ $uitslag->Datum }}</td>
+                        <td>{{ $uitslag->AantalUren }}</td>
+                        <td>{{ $uitslag->BeginTijd }}</td>
+                        <td>{{ $uitslag->EindTijd }}</td>
+                        <td>{{ $uitslag->AantalVolwassen }}</td>
+                        <td>{{ $uitslag->AantalKinderen }}</td>
+                        <td>
+                            <a href="{{ route('reservering.uitslagen', ['id' => $uitslag->UitslagId]) }}" class="btn btn-primary btn-sm">
+                                Bekijk Score
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    {{-- Mobile Table --}}
+    <div class="d-md-none">
+        @foreach ($uitslagen as $uitslag)
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ $uitslag->Naam }}</h5>
+                    <p class="card-text">
+                        <strong>Datum:</strong> {{ $uitslag->Datum }}<br>
+                        <strong>Aantal uren:</strong> {{ $uitslag->AantalUren }}<br>
+                        <strong>Begintijd:</strong> {{ $uitslag->BeginTijd }}<br>
+                        <strong>Eindtijd:</strong> {{ $uitslag->EindTijd }}<br>
+                        <strong>Volwassenen:</strong> {{ $uitslag->AantalVolwassen }}<br>
+                        <strong>Kinderen:</strong> {{ $uitslag->AantalKinderen }}
+                    </p>
+                    <a href="{{ route('reservering.uitslagen', ['id' => $uitslag->UitslagId]) }}" class="btn btn-primary btn-sm">
+                        Bekijk Score
+                    </a>
+                </div>
+            </div>
+        @endforeach
+    </div>
 </div>
 @endsection

@@ -13,6 +13,10 @@ class PersoonController extends Controller
      */
     public function index(Request $request)
     {
+        $request->validate([
+            'datum' => 'nullable|date|before_or_equal:today',
+        ]);
+
         $datums = DB::table('persoons')
             ->selectRaw('DATE(datum_aangemaakt) as datum')
             ->distinct()
@@ -23,7 +27,7 @@ class PersoonController extends Controller
         $query = DB::table('persoons')
             ->leftJoin('contacts', 'persoons.id', '=', 'contacts.PersoonId')
             ->select(
-                'persoons.id', // Include the id field
+                'persoons.id',
                 'persoons.Voornaam',
                 'persoons.Tussenvoegsel',
                 'persoons.Achternaam',
@@ -55,7 +59,7 @@ class PersoonController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'type_persoon' => 'required|integer',
+            'type_persoon' => 'required|integer|exists:type_persoons,id',
             'Voornaam' => 'required|string|max:51',
             'Tussenvoegsel' => 'nullable|string|max:20',
             'Achternaam' => 'required|string|max:41',
@@ -72,7 +76,12 @@ class PersoonController extends Controller
      */
     public function show($id)
     {
-        $persoon = Persoon::findOrFail($id);
+        $validatedId = filter_var($id, FILTER_VALIDATE_INT);
+        if (!$validatedId) {
+            abort(400, 'Invalid ID provided.');
+        }
+
+        $persoon = Persoon::findOrFail($validatedId);
         return response()->json($persoon);
     }
 
@@ -81,6 +90,11 @@ class PersoonController extends Controller
      */
     public function edit($id)
     {
+        $validatedId = filter_var($id, FILTER_VALIDATE_INT);
+        if (!$validatedId) {
+            abort(400, 'Invalid ID provided.');
+        }
+
         $klant = DB::table('persoons')
             ->leftJoin('contacts', 'persoons.id', '=', 'contacts.PersoonId')
             ->select(
@@ -93,7 +107,7 @@ class PersoonController extends Controller
                 'contacts.Mobiel',
                 'contacts.Email'
             )
-            ->where('persoons.id', $id)
+            ->where('persoons.id', $validatedId)
             ->first();
 
         if (!$klant) {
@@ -108,23 +122,27 @@ class PersoonController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validatedId = filter_var($id, FILTER_VALIDATE_INT);
+        if (!$validatedId) {
+            abort(400, 'Invalid ID provided.');
+        }
+
         $validatedData = $request->validate([
             'Voornaam' => 'required|string|max:51',
             'Tussenvoegsel' => 'nullable|string|max:20',
             'Achternaam' => 'required|string|max:41',
-            'Roepnaam' => 'nullable|string|max:50', // Ensure Roepnaam is optional
+            'Roepnaam' => 'nullable|string|max:50',
             'is_volwassen' => 'nullable|boolean',
             'Mobiel' => 'nullable|string|max:255',
-            'Email' => 'nullable|email|max:255|unique:contacts,Email,' . $id . ',PersoonId',
+            'Email' => 'nullable|email|max:255|unique:contacts,Email,' . $validatedId . ',PersoonId',
         ]);
 
-        // Provide a default value for Roepnaam if it is null
         $persoonData = [
             'Voornaam' => $validatedData['Voornaam'],
             'Tussenvoegsel' => $validatedData['Tussenvoegsel'] ?? null,
             'Achternaam' => $validatedData['Achternaam'],
-            'Roepnaam' => $validatedData['Roepnaam'] ?? $validatedData['Voornaam'], // Default to Voornaam
-            'is_volwassen' => $validatedData['IsVolwassen'] ?? false,
+            'Roepnaam' => $validatedData['Roepnaam'] ?? $validatedData['Voornaam'],
+            'is_volwassen' => $validatedData['is_volwassen'] ?? false,
         ];
 
         $contactData = [
@@ -132,11 +150,8 @@ class PersoonController extends Controller
             'Email' => $validatedData['Email'] ?? null,
         ];
 
-        // Update the 'persoons' table
-        DB::table('persoons')->where('id', $id)->update($persoonData);
-
-        // Update the 'contacts' table
-        DB::table('contacts')->where('PersoonId', $id)->update($contactData);
+        DB::table('persoons')->where('id', $validatedId)->update($persoonData);
+        DB::table('contacts')->where('PersoonId', $validatedId)->update($contactData);
 
         return redirect()->route('klanten.index')->with('success', 'Klantgegevens succesvol bijgewerkt.');
     }
@@ -146,8 +161,14 @@ class PersoonController extends Controller
      */
     public function destroy($id)
     {
-        $persoon = Persoon::findOrFail($id);
+        $validatedId = filter_var($id, FILTER_VALIDATE_INT);
+        if (!$validatedId) {
+            abort(400, 'Invalid ID provided.');
+        }
+
+        $persoon = Persoon::findOrFail($validatedId);
         $persoon->delete();
+
         return response()->json(null, 204);
     }
 }
