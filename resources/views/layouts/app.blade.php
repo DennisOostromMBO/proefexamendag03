@@ -29,7 +29,19 @@
                             <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->is('reservering*') ? 'active' : '' }}" href="{{ route('reservering.index') }}">Overzicht reserveringen</a>
+                            <a class="nav-link {{ request()->is('reservering*') ? 'active' : '' }}" href="{{ route('reservering.index') }}">Overzicht bevestigde reserveringen</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('reserveringen*') ? 'active' : '' }}" href="{{ route('reserveringen.index') }}">Alle reserveringen</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('banen*') ? 'active' : '' }}" href="{{ route('banen.index') }}">Banen</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('uitslag*') ? 'active' : '' }}" href="{{ route('uitslag.index') }}">Uitslagen</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('klanten*') ? 'active' : '' }}" href="{{ route('klanten.index') }}">Klanten</a>
                         </li>
                     </ul>
                 </div>
