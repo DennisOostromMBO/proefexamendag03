@@ -134,11 +134,12 @@ class PersoonController extends Controller
             'Tussenvoegsel' => 'nullable|string|max:20|regex:/^[a-zA-Z\s]+$/',
             'Achternaam' => 'required|string|max:41|regex:/^[a-zA-Z]+$/',
             'Roepnaam' => 'nullable|string|max:50|regex:/^[a-zA-Z]+$/',
-            'is_volwassen' => 'nullable|boolean',
-            'Mobiel' => 'nullable|string|max:255',
+            'is_volwassen' => 'nullable|boolean|regex:/^[0-1]$/',
+            'Mobiel' => 'nullable|string|max:255|regex:/^\+?[0-9\s\-]+$/',
             'Email' => 'nullable|email|max:255|unique:contacts,Email,' . $validatedId . ',PersoonId',
         ], [
             'regex' => 'Dit is niet toegestaan',
+            'Email.unique' => 'Het e-mailadres is al in gebruik',
         ]);
 
         $persoonData = [
